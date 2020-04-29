@@ -20,6 +20,7 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    CHANNEL_TABLE: channel-table
 
 functions:
   CreateChannel:
@@ -28,3 +29,17 @@ functions:
       - http:
           method: post
           path: createChannel
+
+resources:
+  Resources:
+    ChannelTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: channelId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: channelId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.CHANNEL_TABLE}
