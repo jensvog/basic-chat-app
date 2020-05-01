@@ -25,6 +25,10 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     CHANNEL_TABLE: channel-table
     ENTRY_TABLE: entry-table
+    ENTRY_INDEX: entry-index
+  tracing:
+    lambda: true
+    apiGateway: true
 
 functions:
   CreateChannel:
@@ -62,12 +66,12 @@ functions:
     events:
       - http:
           method: post
-          path: CreateEntry
+          path: createEntry
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-        Resources: arn:aws:dynamodb:${self:provider.regio}:*:table/${self:provider.environment.ENTRY_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ENTRY_TABLE}
       - Effect: Allow
         Action:
           - xray:*
@@ -94,6 +98,8 @@ resources:
             AttributeType: S
           - AttributeName: entryId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
         KeySchema:
           - AttributeName: channelId
             KeyType: HASH
@@ -101,3 +107,12 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.ENTRY_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.ENTRY_INDEX}
+            KeySchema:
+              - AttributeName: channelId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index
