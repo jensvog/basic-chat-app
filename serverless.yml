@@ -12,15 +12,19 @@ custom:
 # Add the serverless-webpack plugin
 plugins:
   - serverless-webpack
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
   runtime: nodejs12.x
+  region: eu-central-1
+  stage: ${opt:stage, 'dev'}
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     CHANNEL_TABLE: channel-table
+    ENTRY_TABLE: entry-table
 
 functions:
   CreateChannel:
@@ -29,6 +33,45 @@ functions:
       - http:
           method: post
           path: createChannel
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CHANNEL_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
+  GetChannel:
+    handler: src/lambda/http/getChannels.handler
+    events:
+      - http:
+          method: get
+          path: channels
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CHANNEL_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
+  CreateEntry:
+    handler: src/lambda/http/createEntry.handler
+    events:
+      - http:
+          method: post
+          path: CreateEntry
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resources: arn:aws:dynamodb:${self:provider.regio}:*:table/${self:provider.environment.ENTRY_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
 
 resources:
   Resources:
@@ -43,3 +86,18 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.CHANNEL_TABLE}
+    EntryTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: channelId
+            AttributeType: S
+          - AttributeName: entryId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: channelId
+            KeyType: HASH
+          - AttributeName: entryId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.ENTRY_TABLE}
