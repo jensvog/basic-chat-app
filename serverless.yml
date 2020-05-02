@@ -91,6 +91,21 @@ functions:
         Action:
           - xray:*
         Resource: '*'
+  UpdateEntry:
+    handler: src/lambda/http/updateEntry.handler
+    events:
+      - http:
+          method: patch
+          path: update/{channelId}/entry/{entryId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ENTRY_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
 
 resources:
   Resources:

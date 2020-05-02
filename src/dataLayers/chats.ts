@@ -3,6 +3,7 @@ import * as AWSXRay from 'aws-xray-sdk'
 import { Channel } from '../models/Channel'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { Entry } from '../models/Entry'
+import { EntryUpdateRequest } from '../models/EntryUpdateRequest'
 
 const XAWS = AWSXRay.captureAWS(AWS);
 
@@ -52,6 +53,29 @@ export class ChannelAccess {
         })
         .promise();
         return result.Items as Entry[];
+    }
+
+    async updateEntry(updatedEntryRequest: EntryUpdateRequest, channelId: string, entryId: string, userId: string): Promise<boolean> {
+        const result = await this.docClient.update({
+            TableName: this.entryTable,
+            Key: {
+                channelId: channelId,
+                entryId: entryId
+              },
+              UpdateExpression: "set message = :m",
+              ExpressionAttributeValues: {
+                  ":m": updatedEntryRequest.message,
+                  ":u": userId
+              },
+              ConditionExpression: "userId = :u"
+        })
+        .promise();
+
+        if (result.$response.error) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 

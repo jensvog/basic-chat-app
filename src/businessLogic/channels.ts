@@ -4,6 +4,7 @@ import { ChannelAccess } from '../dataLayers/chats'
 import { Channel } from '../models/Channel'
 import { EntryRequest } from '../models/EntryRequest'
 import { Entry } from '../models/Entry'
+import { EntryUpdateRequest } from '../models/EntryUpdateRequest'
 
 const channelAccess = new ChannelAccess();
 
@@ -38,4 +39,8 @@ export async function createEntry(newEntry: EntryRequest, userId: string): Promi
 
 export async function getEntries(channelId: string): Promise<Entry[]> {
     return await channelAccess.getEntries(channelId);
+}
+
+export async function updateEntry(updatedEntryRequest: EntryUpdateRequest, channelId: string, entryId: string, userId: string): Promise<boolean> {
+    return await channelAccess.updateEntry(updatedEntryRequest, channelId, entryId, userId);
 }
