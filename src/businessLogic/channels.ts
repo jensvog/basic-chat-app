@@ -35,3 +35,7 @@ export async function createEntry(newEntry: EntryRequest, userId: string): Promi
 
     return entry;
 }
+
+export async function getEntries(channelId: string): Promise<Entry[]> {
+    return await channelAccess.getEntries(channelId);
+}

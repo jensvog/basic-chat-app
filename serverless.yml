@@ -76,6 +76,21 @@ functions:
         Action:
           - xray:*
         Resource: '*'
+  GetEntries:
+    handler: src/lambda/http/getEntries.handler
+    events:
+      - http:
+          method: get
+          path: chats/{channelId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ENTRY_TABLE}/index/${self:provider.environment.ENTRY_INDEX}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
 
 resources:
   Resources:

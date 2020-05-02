@@ -10,7 +10,8 @@ export class ChannelAccess {
     constructor(
         private readonly docClient: DocumentClient = createDynamoDBClient(),
         private readonly channelTable = process.env.CHANNEL_TABLE,
-        private readonly entryTable = process.env.ENTRY_TABLE
+        private readonly entryTable = process.env.ENTRY_TABLE,
+        private readonly entryIndex = process.env.ENTRY_INDEX
     ) {}
 
     async createChannel(newChannel: Channel) {
@@ -38,6 +39,19 @@ export class ChannelAccess {
         }
     )
     .promise();
+    }
+
+    async getEntries(channelId: string): Promise<Entry[]> {
+        const result = await this.docClient.query({
+            TableName: this.entryTable,
+            IndexName: this.entryIndex,
+            KeyConditionExpression: 'channelId = :channelId',
+            ExpressionAttributeValues: {
+                ':channelId': channelId
+            }
+        })
+        .promise();
+        return result.Items as Entry[];
     }
 }
 
