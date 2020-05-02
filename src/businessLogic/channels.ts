@@ -44,3 +44,7 @@ export async function getEntries(channelId: string): Promise<Entry[]> {
 export async function updateEntry(updatedEntryRequest: EntryUpdateRequest, channelId: string, entryId: string, userId: string): Promise<boolean> {
     return await channelAccess.updateEntry(updatedEntryRequest, channelId, entryId, userId);
 }
+
+export async function deleteEntry(channelId: string, entryId: string, userId: string): Promise<boolean> {
+    return await channelAccess.deleteEntry(channelId, entryId, userId);
+}

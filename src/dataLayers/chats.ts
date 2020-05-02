@@ -77,6 +77,27 @@ export class ChannelAccess {
             return true;
         }
     }
+
+    async deleteEntry(channelId: string, entryId: string, userId: string): Promise<boolean> {
+        const result = await this.docClient.delete({
+            TableName: this.entryTable,
+            Key: {
+                channelId: channelId,
+                entryId: entryId
+              },
+              ExpressionAttributeValues: {
+                  ":u": userId
+              },
+              ConditionExpression: "userId = :u"
+        })
+        .promise();
+
+        if (result.$response.error) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 function createDynamoDBClient() {

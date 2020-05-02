@@ -106,6 +106,21 @@ functions:
         Action:
           - xray:*
         Resource: '*'
+  DeleteEntry:
+    handler: src/lambda/http/deleteEntry.handler
+    events:
+      - http:
+          method: delete
+          path: delete/{channelId}/entry/{entryId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ENTRY_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:*
+        Resource: '*'
 
 resources:
   Resources:
