@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "926ead6f-b03d-45f4-a663-b4d33681a2cf",
+		"name": "basic-chat-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateChannel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"capstone\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/createChannel",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"createChannel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateEntry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"channelId\": \"86b2b477-2997-47f4-9162-1876c823e212\",\n\t\"message\": \"Final project ongoing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/createEntry",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"createEntry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChannels",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/channels",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEntries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/chats/86b2b477-2997-47f4-9162-1876c823e212",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"chats",
+						"86b2b477-2997-47f4-9162-1876c823e212"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEntry",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": \"Hello Friends\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/update/86b2b477-2997-47f4-9162-1876c823e212/entry/a2641a4d-a231-4ab6-9adb-3d61f4274d9a",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"update",
+						"86b2b477-2997-47f4-9162-1876c823e212",
+						"entry",
+						"a2641a4d-a231-4ab6-9adb-3d61f4274d9a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEntry",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": \"Hello Friends\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiid}}.execute-api.eu-central-1.amazonaws.com/dev/delete/86b2b477-2997-47f4-9162-1876c823e212/entry/a2641a4d-a231-4ab6-9adb-3d61f4274d9a",
+					"protocol": "https",
+					"host": [
+						"{{apiid}}",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"delete",
+						"86b2b477-2997-47f4-9162-1876c823e212",
+						"entry",
+						"a2641a4d-a231-4ab6-9adb-3d61f4274d9a"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f835e72d-c84e-415d-96a1-4f4ad8ba5424",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "91126bd2-656a-4d34-8ca1-6d1eeb1b6314",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "07f60cea-4304-416a-999f-e9ec4814b383",
+			"key": "apiid",
+			"value": "qnjkiuaakb",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
