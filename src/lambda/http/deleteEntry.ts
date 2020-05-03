@@ -1,11 +1,12 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
+import * as middy from 'middy'
+import { cors } from 'middy/middlewares'
 import { deleteEntry } from '../../businessLogic/channels'
 import { getUserId } from '../utils'
 import { createLogger } from "../../utils/logger";
 
 const logger = createLogger('deleteEntry')
 
-export const handler: APIGatewayProxyHandler = async (event, _context) => {
+export const handler = middy(async (event, _context) => {
     const entryId = event.pathParameters.entryId
     const channelId = event.pathParameters.channelId
     const userId: string = getUserId(event);
@@ -25,5 +26,10 @@ export const handler: APIGatewayProxyHandler = async (event, _context) => {
             body: ''
         }
     }
+})
 
-}
+handler.use(
+    cors({
+      credentials: true
+    })
+  )

@@ -37,6 +37,7 @@ functions:
       - http:
           method: post
           path: createChannel
+          cors: true
           request:
             schema:
               application/json: ${file(src/models/ChannelRequest.json)}
@@ -55,6 +56,7 @@ functions:
       - http:
           method: get
           path: channels
+          cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -70,6 +72,7 @@ functions:
       - http:
           method: post
           path: createEntry
+          cors: true
           request:
             schema:
               application/json: ${file(src/models/EntryRequest.json)}
@@ -88,6 +91,7 @@ functions:
       - http:
           method: get
           path: chats/{channelId}
+          cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -103,6 +107,7 @@ functions:
       - http:
           method: patch
           path: update/{channelId}/entry/{entryId}
+          cors: true
           request:
             schema:
               application/json: ${file(src/models/EntryUpdateRequest.json)}
@@ -121,6 +126,7 @@ functions:
       - http:
           method: delete
           path: delete/{channelId}/entry/{entryId}
+          cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
