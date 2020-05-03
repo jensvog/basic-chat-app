@@ -37,6 +37,9 @@ functions:
       - http:
           method: post
           path: createChannel
+          request:
+            schema:
+              application/json: ${file(src/models/ChannelRequest.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -67,6 +70,9 @@ functions:
       - http:
           method: post
           path: createEntry
+          request:
+            schema:
+              application/json: ${file(src/models/EntryRequest.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -97,6 +103,9 @@ functions:
       - http:
           method: patch
           path: update/{channelId}/entry/{entryId}
+          request:
+            schema:
+              application/json: ${file(src/models/EntryUpdateRequest.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:

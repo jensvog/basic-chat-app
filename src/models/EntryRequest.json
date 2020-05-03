@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "EntryRequest",
+    "type": "object",
+    "properties": {
+        "channelId": {
+            "type": "string"
+        },
+        "message": {
+            "type": "string"
+        }
+    },
+    "required": ["channelId", "message"]
+}
