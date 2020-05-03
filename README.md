@@ -11,32 +11,37 @@ Serverless chat application with multiple channels
 * Get Entries: Receives all chat entries of a channel
 
 All Post requests are validated with JSON schema files. They are located under
-src/models/*.json
+`src/models/*.json`.
 
 ### Create channel
 
-Path: /createChannel
+Path: `/createChannel`
+
 Method: POST
+
 Input:
-{code}
+```
 {
     name: string
 }
-{code}
+```
+
 Output:
-{code}
+```
 {
     channelId: string
     name: string
 }
-{code}
+```
 
 ### Get channels
 
-Path: /channels
+Path: `/channels`
+
 Method: GET
+
 Output:
-{code}
+```
 [
     {
         channelId: string
@@ -44,21 +49,24 @@ Output:
     },
     ...
 ]
-{code}
+```
 
 ### Create entry
 
-Path: /createEntry
+Path: `/createEntry`
+
 Method: POST
+
 Input:
-{code}
+```
 {
     channelId: string
     message: string
 }
-{code}
+```
+
 Output:
-{code}
+```
 {
     channelId: string,
     entryId: string,
@@ -66,30 +74,35 @@ Output:
     message: string,
     createdAt: string
 }
-{code}
+```
 
 ### Update entry
 
-Path: update/{channelId}/entry/{entryId}
+Path: `update/{channelId}/entry/{entryId}`
+
 Method: PATCH
+
 Input:
-{code}
+```
 {
     message: string
 }
-{code}
+```
 
 ### Delete entry
 
-Path: delete/{channelId}/entry/{entryId}
+Path: `delete/{channelId}/entry/{entryId}`
+
 Method: DELETE
 
 ### Get entries
 
-Path: chats/{channelId}
+Path: `chats/{channelId}`
+
 Method: GET
+
 Output:
-{code}
+```
 [
     {
         channelId: string,
@@ -100,7 +113,7 @@ Output:
     },
     ...
 ]
-{code}
+```
 
 ## CORS
 
@@ -115,7 +128,8 @@ serverless.
 ## Postman
 
 The application can be tested with Postman. A collections is appended in the
-repository under `postman_collection.json`
+repository under `postman_collection.json`. Before it can be used
+authenthifcation has to be set up with a Bearer token.
 
 ## Branch Setup
 
@@ -132,7 +146,9 @@ login mechanism.
 The source code is located under the src/ directory.
 
 lambda/http/ contains lambda heads for the functions
+
 businessLogic/ contains the business login
+
 dataLayers/ contains the AWS interface to DynamoDB
 
 ## Logging
@@ -145,15 +161,16 @@ The project uses DynanoDB for storing the data. There are two tables created.
 
 ### Channel Table
 
-{code}
+```
 {
     channelId: string
     message: string
 }
-{code}
+```
 
 ### Entry Table
-{code}
+
+```
 {
     channelId: string,
     entryId: string,
@@ -161,4 +178,4 @@ The project uses DynanoDB for storing the data. There are two tables created.
     message: string,
     createdAt: string
 }
-{code}
+```
