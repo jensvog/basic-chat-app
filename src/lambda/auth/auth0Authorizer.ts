@@ -6,13 +6,15 @@ import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
 import { Jwt } from '../../auth/Jwt'
 import { JwtPayload } from '../../auth/JwtPayload'
+var jwkToPem = require('jwk-to-pem');
 
 const logger = createLogger('auth')
 
 // TODODONE: Provide a URL that can be used to download a certificate that can be used
 // to verify JWT token signature.
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
-const jwksUrl = 'https://dev-bey72byp.eu.auth0.com/.well-known/jwks.json'
+//const jwksUrl = 'https://dev-bey72byp.eu.auth0.com/.well-known/jwks.json'
+const jwksUrl = 'https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_IwTA5T3ui/.well-known/jwks.json'
 
 export const handler = async (
   event: CustomAuthorizerEvent
@@ -64,7 +66,10 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   // You should implement it similarly to how it was implemented for the exercise for the lesson 5
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
   const cert = await Axios.get(jwksUrl);
-  verify(token, cert.data, { algorithms: ['RS256'] });
+  logger.info('Token', token);
+  logger.info('Cert', cert.data);
+  const pem = jwkToPem(cert.data.keys[0]);
+  verify(token, pem, { algorithms: ['RS256'] });
   return jwt.payload;
 }
 

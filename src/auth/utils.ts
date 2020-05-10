@@ -11,3 +11,8 @@ export function parseUserId(jwtToken: string): string {
   const decodedJwt = decode(jwtToken) as JwtPayload
   return decodedJwt.sub
 }
+
+export function parseUserName(jwtToken: string): string {
+  const decodedJwt = decode(jwtToken) as JwtPayload
+  return decodedJwt['cognito:username']
+}

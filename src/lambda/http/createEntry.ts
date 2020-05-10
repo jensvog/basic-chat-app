@@ -3,14 +3,14 @@ import { cors } from 'middy/middlewares'
 import { EntryRequest } from '../../models/EntryRequest'
 import { Entry } from '../../models/Entry'
 import { createEntry } from '../../businessLogic/channels'
-import { getUserId } from '../utils'
+import { getUserName } from '../utils'
 import { createLogger } from "../../utils/logger";
 
 const logger = createLogger('createEntry');
 
 export const handler = middy(async (event, _context) => {
     const newEntry: EntryRequest = JSON.parse(event.body);
-    const userId: string = getUserId(event);
+    const userId: string = getUserName(event);
 
     logger.info('Create a new entry');
 
