@@ -71,6 +71,7 @@ Output:
     channelId: string,
     entryId: string,
     userId: string,
+    userName: string,
     message: string,
     createdAt: string
 }
@@ -175,6 +176,7 @@ The project uses DynanoDB for storing the data. There are two tables created.
     channelId: string,
     entryId: string,
     userId: string,
+    userName: string,
     message: string,
     createdAt: string
 }

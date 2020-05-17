@@ -23,11 +23,12 @@ export async function getChannels(): Promise<Channel[]> {
     return await channelAccess.getChannels();
 }
 
-export async function createEntry(newEntry: EntryRequest, userId: string): Promise<Entry> {
+export async function createEntry(newEntry: EntryRequest, userId: string, userName: string): Promise<Entry> {
     const entry: Entry = {
         channelId: newEntry.channelId,
         entryId: uuidv4(),
-        userId: userId,
+        userId,
+        userName,
         message: newEntry.message,
         createdAt: new Date().toISOString()
     };
