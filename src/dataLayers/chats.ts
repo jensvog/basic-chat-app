@@ -46,6 +46,7 @@ export class ChannelAccess {
         const result = await this.docClient.query({
             TableName: this.entryTable,
             IndexName: this.entryIndex,
+            ScanIndexForward: false,
             KeyConditionExpression: 'channelId = :channelId',
             ExpressionAttributeValues: {
                 ':channelId': channelId
